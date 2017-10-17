@@ -32,9 +32,10 @@ class MyWindow(arcade.Window):
         self.player_sprite = None
         self.lives = 3
         
-        self.background = arcade.load_texture("images/bg.png")
+        arcade.set_background_color(arcade.color.BLACK)
         
         self.bullet_sound = arcade.load_sound("sounds/laser1.mp3")
+        self.zombie_sound = arcade.load_sound("sounds/zombie.mp3")
 
         self.score_text = None
         self.zombie_text = None
@@ -78,7 +79,7 @@ class MyWindow(arcade.Window):
             self.score_text = arcade.create_text(output, arcade.color.WHITE, 14)
         arcade.render_text(self.score_text, 10, 70)
 
-        output = "Zombie Count: {}".format(len(self.zombie_list))
+        output = "Level: {}".format(self.score//30)
         if not self.zombie_text or output != self.zombie_text.text:
             self.zombie_text = arcade.create_text(output, arcade.color.WHITE, 14)
         arcade.render_text(self.zombie_text, 10, 50)
@@ -110,6 +111,8 @@ class MyWindow(arcade.Window):
             self.player_sprite.change_angle = 3
         elif symbol == arcade.key.RIGHT:
             self.player_sprite.change_angle = -3
+        
+            
 
 
     def on_key_release(self, symbol, modifiers):
@@ -175,6 +178,7 @@ class MyWindow(arcade.Window):
                 for zombie in zombies:
                     self.add_zombie_and_score(zombie)
                     zombie.kill()
+                    arcade.play_sound(self.zombie_sound)
                     bullet.kill()
 
             if not self.player_sprite.respawning:
