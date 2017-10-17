@@ -2,6 +2,7 @@ import arcade
 import random
 import math
 
+
 SCALE = 0.5
 OFFSCREEN_TOWN = 300
 SCREEN_WIDTH = 800
@@ -38,7 +39,7 @@ class ActorSprite(arcade.Sprite):
         self.angle = 0
 
     def update(self):
-
+        super().update()
         if self.respawning:
             self.respawning += 1
             self.alpha = self.respawning / 500.0
@@ -47,28 +48,31 @@ class ActorSprite(arcade.Sprite):
                 self.alpha = 1
 
 
-        self.center_x = SCREEN_WIDTH / 2
-        self.center_y = SCREEN_HEIGHT / 2
+        #self.center_x = SCREEN_WIDTH / 2
+        #self.center_y = SCREEN_HEIGHT / 2
        
-        super().update()
+        
         
 class zombieSprite(arcade.Sprite):
 
     def __init__(self, image_file_name, scale):
         super().__init__(image_file_name, scale=scale)
         self.size = 0
-
+    
+    def zombie_angle(x1,y1,x2,y2):
+        return -math.degrees(math.atan2(x1-x2 , y1-y2))
+    
+    def follow_player(self, player):
+        self.angle = zombieSprite.zombie_angle(self.center_x,self.center_y, player.center_x,player.center_y)
+        #print(self.angle)
+    
     def update(self):
   
-        super().update()
-    
-        self.angle = -math.degrees(math.atan2(self.center_x-SCREEN_WIDTH/2 , self.center_y-SCREEN_HEIGHT/2))
+        self.change_x = math.cos(self.angle)*4/5
+        self.change_y = math.sin(self.angle)*4/5
         
-        self.change_x = math.cos(self.angle)*0.25
-        self.change_y = math.sin(self.angle)*0.25
-        
-        self.center_x += self.change_x
-        self.center_y += self.change_y
+        #self.center_x += self.change_x
+        #self.center_y += self.change_y
         
         if self.center_x < LEFT_LIMIT:
             self.center_x = RIGHT_LIMIT
@@ -78,6 +82,8 @@ class zombieSprite(arcade.Sprite):
             self.center_y = BOTTOM_LIMIT
         if self.center_y < BOTTOM_LIMIT:
             self.center_y = TOP_LIMIT
+    
+        super().update()
 
 
 class BulletSprite(TurningSprite):

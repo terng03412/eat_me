@@ -66,7 +66,11 @@ class MyWindow(arcade.Window):
             self.actor_life_list.append(life)
         
         self.make_zombie(1)
-
+        
+    def get_player_pos():
+        pos = [self.play_sprite.center_x ,self.play_sprite.center_y  ]
+        return pos
+    
     def on_draw(self):
 
         arcade.start_render()
@@ -111,7 +115,12 @@ class MyWindow(arcade.Window):
             self.player_sprite.change_angle = 3
         elif symbol == arcade.key.RIGHT:
             self.player_sprite.change_angle = -3
-        
+        elif symbol == arcade.key.UP:
+            self.player_sprite.change_y = 3*math.sin(math.radians(self.player_sprite.angle+90))
+            self.player_sprite.change_x = 3*math.cos(math.radians(self.player_sprite.angle+90))
+        elif symbol == arcade.key.DOWN:
+            self.player_sprite.change_y = -3*math.sin(math.radians(self.player_sprite.angle+90))
+            self.player_sprite.change_x = -3*math.cos(math.radians(self.player_sprite.angle+90))
             
 
 
@@ -121,6 +130,12 @@ class MyWindow(arcade.Window):
             self.player_sprite.change_angle = 0
         elif symbol == arcade.key.RIGHT:
             self.player_sprite.change_angle = 0
+        if symbol == arcade.key.UP:
+            self.player_sprite.change_y = 0
+            self.player_sprite.change_x = 0
+        else:
+            self.player_sprite.change_y = 0
+            self.player_sprite.change_x = 0
 
     def make_zombie(self , n):
         for i in range(n):
@@ -131,10 +146,10 @@ class MyWindow(arcade.Window):
                       "images/zombie4.png")
 
                 enemy_sprite = models.zombieSprite(image_list[image_no],
-                                              SCALE *1)
+                                              SCALE )
 
                 enemy_sprite.center_y = random.randrange(BOTTOM_LIMIT ,TOP_LIMIT )
-                print(enemy_sprite.center_y )
+                
                 if enemy_sprite.center_y>0:
                     if random.randrange(2)==0:
                         enemy_sprite.center_x = 1000/2 + math.sqrt(780*780-(enemy_sprite.center_y-600)*(enemy_sprite.center_y-600))
@@ -170,6 +185,8 @@ class MyWindow(arcade.Window):
         self.frame_count += 1
 
         if not self.game_over:
+            for zombie in self.zombie_list:
+                zombie.follow_player(self.player_sprite)
             self.all_sprites_list.update()
 
             for bullet in self.bullet_list:
@@ -213,7 +230,6 @@ class MyWindow(arcade.Window):
                             zombie.kill()
                             
                         self.game_over = True
-                        print("Game over")
 
 
 def main():
