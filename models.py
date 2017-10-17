@@ -23,16 +23,12 @@ class ActorSprite(arcade.Sprite):
 
     def __init__(self, filename, scale):
       
-    
         super().__init__(filename, scale)
-
-
-        self.respawning = 0
         
+        self.respawning = 0
         self.respawn()
 
     def respawn(self):
-
         self.respawning = 1
         self.center_x = SCREEN_WIDTH / 2
         self.center_y = SCREEN_HEIGHT / 2
@@ -46,12 +42,15 @@ class ActorSprite(arcade.Sprite):
             if self.respawning > 250:
                 self.respawning = 0
                 self.alpha = 1
-
-
-        #self.center_x = SCREEN_WIDTH / 2
-        #self.center_y = SCREEN_HEIGHT / 2
-       
-        
+                
+        if self.center_x < 0:
+            self.center_x = SCREEN_WIDTH
+        if self.center_x > SCREEN_WIDTH:
+            self.center_x = 0
+        if self.center_y > SCREEN_HEIGHT:
+            self.center_y = 0
+        if self.center_y < 0:
+            self.center_y = SCREEN_HEIGHT      
         
 class zombieSprite(arcade.Sprite):
 
@@ -63,17 +62,20 @@ class zombieSprite(arcade.Sprite):
         return -math.degrees(math.atan2(x1-x2 , y1-y2))
     
     def follow_player(self, player):
-        self.angle = zombieSprite.zombie_angle(self.center_x,self.center_y, player.center_x,player.center_y)
-        #print(self.angle)
+        if random.randrange(1000000)>900000:
+            self.angle = zombieSprite.zombie_angle(self.center_x,
+                                                   self.center_y, 
+                                                   player.center_x,
+                                                   player.center_y)
+        else:
+            self.angle += 0.005 
     
     def update(self):
   
-        self.change_x = math.cos(self.angle)*4/5
-        self.change_y = math.sin(self.angle)*4/5
+        self.change_x = math.cos(self.angle)*3/5
+        self.change_y = math.sin(self.angle)*3/5
         
-        #self.center_x += self.change_x
-        #self.center_y += self.change_y
-        
+
         if self.center_x < LEFT_LIMIT:
             self.center_x = RIGHT_LIMIT
         if self.center_x > RIGHT_LIMIT:
@@ -87,7 +89,6 @@ class zombieSprite(arcade.Sprite):
 
 
 class BulletSprite(TurningSprite):
-
 
     def update(self):
         super().update()

@@ -19,7 +19,6 @@ class MyWindow(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        self.frame_count = 0
         
         self.game_over = False
         
@@ -39,10 +38,10 @@ class MyWindow(arcade.Window):
 
         self.score_text = None
         self.zombie_text = None
+    
 
     def start_new_game(self):
 
-        self.frame_count = 0
         self.game_over = False
 
         self.all_sprites_list = arcade.SpriteList()
@@ -67,9 +66,7 @@ class MyWindow(arcade.Window):
         
         self.make_zombie(1)
         
-    def get_player_pos():
-        pos = [self.play_sprite.center_x ,self.play_sprite.center_y  ]
-        return pos
+    
     
     def on_draw(self):
 
@@ -78,7 +75,6 @@ class MyWindow(arcade.Window):
         self.all_sprites_list.draw()
 
         output = f"Score: {self.score}"
-        
         if not self.score_text or output != self.score_text.text:
             self.score_text = arcade.create_text(output, arcade.color.WHITE, 14)
         arcade.render_text(self.score_text, 10, 70)
@@ -95,12 +91,10 @@ class MyWindow(arcade.Window):
 
             bullet_speed = 13
             
-            
-            
+                        
             bullet_sprite.change_y = math.cos(math.radians(self.player_sprite.angle)) * bullet_speed
             bullet_sprite.change_x = -math.sin(math.radians(self.player_sprite.angle)) * bullet_speed
             
-
             bullet_sprite.center_x = self.player_sprite.center_x
             bullet_sprite.center_y = self.player_sprite.center_y
 
@@ -121,6 +115,8 @@ class MyWindow(arcade.Window):
         elif symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -3*math.sin(math.radians(self.player_sprite.angle+90))
             self.player_sprite.change_x = -3*math.cos(math.radians(self.player_sprite.angle+90))
+            
+            
             
 
 
@@ -145,8 +141,7 @@ class MyWindow(arcade.Window):
                       "images/zombie3.png",
                       "images/zombie4.png")
 
-                enemy_sprite = models.zombieSprite(image_list[image_no],
-                                              SCALE )
+                enemy_sprite = models.zombieSprite(image_list[image_no],SCALE )
 
                 enemy_sprite.center_y = random.randrange(BOTTOM_LIMIT ,TOP_LIMIT )
                 
@@ -161,9 +156,6 @@ class MyWindow(arcade.Window):
                     else:
                         enemy_sprite.center_x = 1000/2 - math.sqrt(780*780-(enemy_sprite.center_y+600)*(enemy_sprite.center_y-600))
                     
-         
-                
-               # enemy_sprite.size = 4
 
                 self.all_sprites_list.append(enemy_sprite)
                 self.zombie_list.append(enemy_sprite)
@@ -172,8 +164,6 @@ class MyWindow(arcade.Window):
                 
     def add_zombie_and_score(self, asteroid: models.zombieSprite):
 
-        x = asteroid.center_x
-        y = asteroid.center_y
         self.score += 1
         
         while len(self.zombie_list)<20:
@@ -182,16 +172,16 @@ class MyWindow(arcade.Window):
         
     def update(self, x):
 
-        self.frame_count += 1
-
         if not self.game_over:
+            
             for zombie in self.zombie_list:
                 zombie.follow_player(self.player_sprite)
+                
             self.all_sprites_list.update()
 
             for bullet in self.bullet_list:
-                zombies = \
-                    arcade.check_for_collision_with_list(bullet, self.zombie_list)
+                zombies = arcade.check_for_collision_with_list(bullet, self.zombie_list)
+                
                 for zombie in zombies:
                     self.add_zombie_and_score(zombie)
                     zombie.kill()
@@ -199,12 +189,11 @@ class MyWindow(arcade.Window):
                     bullet.kill()
 
             if not self.player_sprite.respawning:
-                zombies = \
-                    arcade.check_for_collision_with_list(self.player_sprite,
-                                                         self.zombie_list)
+                zombies = arcade.check_for_collision_with_list(self.player_sprite,self.zombie_list)
+                
                 if len(zombies) > 0:
                     if self.lives > 0:
-                        self.lives -= 1
+                        self.lives -= 1  
                         self.player_sprite.respawn()
                         self.add_zombie_and_score(zombies[0])
                         zombies[0].kill()
@@ -222,6 +211,7 @@ class MyWindow(arcade.Window):
                             zombie.kill()
                         for zombie in self.zombie_list:
                             zombie.kill()
+                        
                         self.make_zombie(2)
                                                 
                         
