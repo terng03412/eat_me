@@ -62,7 +62,7 @@ class zombieSprite(arcade.Sprite):
         return -math.degrees(math.atan2(x1-x2 , y1-y2))
     
     def follow_player(self, player):
-        if random.randrange(1000000)>900000:
+        if random.randrange(100)>95:
             self.angle = zombieSprite.zombie_angle(self.center_x,
                                                    self.center_y, 
                                                    player.center_x,
@@ -72,8 +72,8 @@ class zombieSprite(arcade.Sprite):
     
     def update(self):
   
-        self.change_x = math.cos(self.angle)*3/5
-        self.change_y = math.sin(self.angle)*3/5
+        self.change_x = math.cos(self.angle)*7/10
+        self.change_y = math.sin(self.angle)*7/10
         
 
         if self.center_x < LEFT_LIMIT:

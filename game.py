@@ -64,7 +64,7 @@ class MyWindow(arcade.Window):
             self.all_sprites_list.append(life)
             self.actor_life_list.append(life)
         
-        self.make_zombie(1)
+        self.make_zombie(50)
         
     
     
@@ -109,12 +109,18 @@ class MyWindow(arcade.Window):
             self.player_sprite.change_angle = 3
         elif symbol == arcade.key.RIGHT:
             self.player_sprite.change_angle = -3
-        elif symbol == arcade.key.UP:
+            
+        if symbol == arcade.key.UP:
             self.player_sprite.change_y = 3*math.sin(math.radians(self.player_sprite.angle+90))
             self.player_sprite.change_x = 3*math.cos(math.radians(self.player_sprite.angle+90))
         elif symbol == arcade.key.DOWN:
             self.player_sprite.change_y = -3*math.sin(math.radians(self.player_sprite.angle+90))
             self.player_sprite.change_x = -3*math.cos(math.radians(self.player_sprite.angle+90))
+        
+        if symbol == arcade.key.C:
+            for zombie in self.zombie_list:
+                zombie.kill()
+                self.score += 1
             
             
             
@@ -162,7 +168,7 @@ class MyWindow(arcade.Window):
                 
                 
                 
-    def add_zombie_and_score(self, asteroid: models.zombieSprite):
+    def add_zombie_and_score(self, zombie: models.zombieSprite):
 
         self.score += 1
         
@@ -201,6 +207,7 @@ class MyWindow(arcade.Window):
                         
                         print("Crash")
                         
+                       
                         for zombie in self.zombie_list:
                             zombie.kill()
                         for zombie in self.zombie_list:
@@ -211,7 +218,7 @@ class MyWindow(arcade.Window):
                             zombie.kill()
                         for zombie in self.zombie_list:
                             zombie.kill()
-                        
+                            
                         self.make_zombie(2)
                                                 
                         
