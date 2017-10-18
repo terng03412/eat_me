@@ -52,7 +52,7 @@ class MyWindow(arcade.Window):
         self.score = 0
         self.player_sprite = models.ActorSprite("images/actor.png", SCALE)
         self.all_sprites_list.append(self.player_sprite)
-        self.lives = 3
+        self.lives = 4
 
         cur_pos = 10
         
@@ -104,7 +104,32 @@ class MyWindow(arcade.Window):
             self.bullet_list.append(bullet_sprite)
 
             arcade.play_sound(self.bullet_sound)
+            
+            
+            
+        if not self.player_sprite.respawning and symbol == arcade.key.S:
+            for i in range(10):
+                bullet_sprite = models.BulletSprite("images/special_power.png", SCALE*0.5)
 
+                bullet_speed = 2
+            
+                        
+                bullet_sprite.change_y = math.cos(math.radians(self.player_sprite.angle*i/3)) * bullet_speed
+                bullet_sprite.change_x = -math.sin(math.radians(self.player_sprite.angle*i/3)) * bullet_speed
+            
+                bullet_sprite.center_x = self.player_sprite.center_x
+                bullet_sprite.center_y = self.player_sprite.center_y
+
+                bullet_sprite.update()
+
+                self.all_sprites_list.append(bullet_sprite)
+                self.bullet_list.append(bullet_sprite)
+
+            arcade.play_sound(self.bullet_sound)
+        
+        
+        
+            
         if symbol == arcade.key.LEFT:
             self.player_sprite.change_angle = 3
         elif symbol == arcade.key.RIGHT:
