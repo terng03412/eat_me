@@ -44,13 +44,13 @@ class ActorSprite(arcade.Sprite):
                 self.alpha = 1
                 
         if self.center_x < 0:
-            self.center_x = SCREEN_WIDTH
+            self.center_x = random.randrange(SCREEN_WIDTH)
         if self.center_x > SCREEN_WIDTH:
-            self.center_x = 0
+            self.center_x = random.randrange(SCREEN_WIDTH)
         if self.center_y > SCREEN_HEIGHT:
-            self.center_y = 0
+            self.center_y =  random.randrange(SCREEN_HEIGHT)
         if self.center_y < 0:
-            self.center_y = SCREEN_HEIGHT      
+            self.center_y = random.randrange(SCREEN_HEIGHT)   
         
 class zombieSprite(arcade.Sprite):
 
