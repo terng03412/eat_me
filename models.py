@@ -68,7 +68,7 @@ class zombieSprite(arcade.Sprite):
                                                    player.center_x,
                                                    player.center_y)
         else:
-            self.angle += 0.005 
+            self.angle += 0
     
     def update(self):
   

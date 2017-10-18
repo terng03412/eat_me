@@ -31,10 +31,10 @@ class MyWindow(arcade.Window):
         self.player_sprite = None
         self.lives = 3
         
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.CORAL)
         
         self.bullet_sound = arcade.load_sound("sounds/laser1.mp3")
-        self.zombie_sound = arcade.load_sound("sounds/zombie.mp3")
+        #self.zombie_sound = arcade.load_sound("sounds/zombie.mp3")
 
         self.score_text = None
         self.zombie_text = None
@@ -185,7 +185,7 @@ class MyWindow(arcade.Window):
                 for zombie in zombies:
                     self.add_zombie_and_score(zombie)
                     zombie.kill()
-                    arcade.play_sound(self.zombie_sound)
+                    #arcade.play_sound(self.zombie_sound)
                     bullet.kill()
 
             if not self.player_sprite.respawning:
