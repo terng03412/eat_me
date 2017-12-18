@@ -72,8 +72,8 @@ class zombieSprite(arcade.Sprite):
     
     def update(self):
   
-        self.change_x = math.cos(self.angle)*7/10
-        self.change_y = math.sin(self.angle)*7/10
+        self.change_x = math.cos(self.angle)*8/10
+        self.change_y = math.sin(self.angle)*8/10
         
 
         if self.center_x < LEFT_LIMIT:

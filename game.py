@@ -33,7 +33,7 @@ class MyWindow(arcade.Window):
         
         arcade.set_background_color(arcade.color.CORAL)
         
-        self.bullet_sound = arcade.load_sound("sounds/laser1.mp3")
+        #self.bullet_sound = arcade.load_sound("sounds/laser1.mp3")
         #self.zombie_sound = arcade.load_sound("sounds/zombie.mp3")
 
         self.score_text = None
@@ -103,11 +103,10 @@ class MyWindow(arcade.Window):
             self.all_sprites_list.append(bullet_sprite)
             self.bullet_list.append(bullet_sprite)
 
-            arcade.play_sound(self.bullet_sound)
+            #arcade.play_sound(self.bullet_sound)
             
-            
-            
-        if not self.player_sprite.respawning and symbol == arcade.key.S:
+       
+        if not self.player_sprite.respawning and symbol == arcade.key.S  :
             for i in range(10):
                 bullet_sprite = models.BulletSprite("images/special_power.png", SCALE*0.5)
 
@@ -125,9 +124,9 @@ class MyWindow(arcade.Window):
                 self.all_sprites_list.append(bullet_sprite)
                 self.bullet_list.append(bullet_sprite)
 
-            arcade.play_sound(self.bullet_sound)
+            #arcade.play_sound(self.bullet_sound)
         
-        
+      
         
             
         if symbol == arcade.key.LEFT:
